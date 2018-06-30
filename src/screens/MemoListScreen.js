@@ -16,7 +16,7 @@ class MemoListScreen extends React.Component {
     const db = firebase.firestore();
     const settings = { /* your settings... */ timestampsInSnapshots: true };
     db.settings(settings);
-    db.collection(`users/${currentUser.uid}/memos`)
+    db.collection(`users/${currentUser.uid}/memos`).orderBy("created_at", "desc")
       .onSnapshot((snapshot) => {
         const memoList = [];
         snapshot.forEach((doc) => {
