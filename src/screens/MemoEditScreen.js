@@ -34,7 +34,6 @@ class MemoEditScreen extends React.Component {
         created_at: newDate,
       })
       .then(() => {
-        console.log('success');
         const { navigation } = this.props;
         navigation.state.params.returnMemo({
           body: this.state.body,
