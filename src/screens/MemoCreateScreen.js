@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, TextInput, Platform } from 'react-native';
 import firebase from 'firebase';
 
 import CircleButton from '../elements/CircleButton';
@@ -7,6 +7,10 @@ import CircleButton from '../elements/CircleButton';
 class MemoCreateScreen extends React.Component {
   state = {
     body: '',
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return Platform.OS !== 'ios' || this.props.value === nextProps.value;
   }
 
   handleSubmit() {
@@ -31,8 +35,8 @@ class MemoCreateScreen extends React.Component {
         <TextInput
           style={styles.memoCreateInput}
           multiline
-          value={this.state.body}
-          textAlignVertical = 'top'
+          textAlignVertical='top'
+          {...this.props}
           onChangeText={(text) => { this.setState({ body: text }) }}
         />
 

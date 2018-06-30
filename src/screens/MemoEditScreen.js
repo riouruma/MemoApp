@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, TextInput, Platform } from 'react-native';
 
 import firebase from 'firebase';
 
@@ -17,6 +17,10 @@ class MemoEditScreen extends React.Component {
       body: params.body,
       key: params.key
     });
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return Platform.OS !== 'ios' || this.props.value === nextProps.value;
   }
 
   handlePress() {
@@ -53,10 +57,10 @@ class MemoEditScreen extends React.Component {
         <TextInput
           style={styles.memoEditInput}
           multiline
-          value={this.state.body}
           underlineColorAndroid='transparent'
           textAlignVertical='top'
-          onChangeText={(text) => { this.setState({ body: text }); }}
+          {...this.props}
+          onChangeText={(text) => { this.setState({ body: text }) }}
         />
 
         <CircleButton
