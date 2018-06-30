@@ -18,7 +18,8 @@ class LoginScreen extends React.Component {
         });
         this.props.navigation.dispatch(resetAction);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
     })
   }
 
