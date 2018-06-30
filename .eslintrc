@@ -9,7 +9,8 @@
       "variables": false
     }],
     "react/prefer-stateless-function": [false],
-    "react/prop-types": [false]
+    "react/prop-types": [false],
+    "react/jsx-no-bind": [false]
   },
 
   "settings": {
