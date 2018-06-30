@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, KeyboardAvoidingView, TextInput, Platform } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
 
 import firebase from 'firebase';
 
@@ -19,8 +19,11 @@ class MemoEditScreen extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps) {
-    return Platform.OS !== 'ios' || this.props.value === nextProps.value;
+  shouldComponentUpdate(nextProps, nextState){
+    if(this.state.body !== nextState.body){
+      return false;
+    }
+    return true;
   }
 
   handlePress() {
@@ -60,6 +63,7 @@ class MemoEditScreen extends React.Component {
           underlineColorAndroid='transparent'
           textAlignVertical='top'
           {...this.props}
+          value={this.state.body}
           onChangeText={(text) => { this.setState({ body: text }) }}
         />
 

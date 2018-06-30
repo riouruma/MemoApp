@@ -4,8 +4,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import CircleButton from '../elements/CircleButton';
 
 const dateString = (date) => {
-  str = date.toDate().toISOString();
-  return str.split('T')[0];
+  const str = date.toDate().toLocaleDateString();
+  return str.split('/').join('-');
 };
 
 class MemoDetailScreen extends React.Component {
