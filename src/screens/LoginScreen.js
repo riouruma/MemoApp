@@ -16,12 +16,24 @@ class LoginScreen extends React.Component {
   async componentDidMount() {
     const email = await Expo.SecureStore.getItemAsync('email');
     const password = await Expo.SecureStore.getItemAsync('password');
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ isLoading: false });
-        this.navigateToHome();
-      })
-      .catch();
+    if (email !== null && password !== null) {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+          this.setState({
+            isLoading: false
+          });
+          this.navigateToHome();
+        })
+        .catch(() => {
+          this.setState({
+            isLoading: false
+          });
+        });
+    } else {
+      this.setState({
+            isLoading: false
+      });
+    }
   }
 
   navigateToHome() {
