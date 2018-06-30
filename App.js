@@ -49,7 +49,9 @@ const App = createStackNavigator({
     },
     headerTitleStyle: {
       color: '#fff',
-      alignSelf: 'center',
+      // androidでheaderタイトルを中央にするためのおまじない
+      textAlign: 'center',
+      flex: 1,
     },
     headerTintColor: '#fff',
     headerBackTitle: null,
