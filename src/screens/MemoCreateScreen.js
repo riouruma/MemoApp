@@ -10,13 +10,11 @@ class MemoCreateScreen extends React.Component {
   }
 
   handleSubmit() {
-    const { params } = this.props.navigation.state;
-    console.log(params);
-    this.props.navigation.navigate('MemoEdit');
+    const { currentUser } = firebase.auth();
     const db = firebase.firestore();
     const settings = { /* your settings... */ timestampsInSnapshots: true };
     db.settings(settings);
-    db.collection(`users/${params.currentUser.user.uid}/memos`).add({
+    db.collection(`users/${currentUser.uid}/memos`).add({
       body: this.state.body,
       created_at: new Date(),
     })
