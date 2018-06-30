@@ -1,26 +1,47 @@
 import React from 'react';
+import Expo from 'expo';
 import { StyleSheet, TextInput, View, TouchableHighlight, TouchableOpacity ,Text } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import firebase from 'firebase';
+
+import Loading from '../elements/Loading';
 
 class LoginScreen extends React.Component {
   state = {
     email: '',
     password: '',
+    isLoading: true,
+  }
+
+  async componentDidMount() {
+    const email = await Expo.SecureStore.getItemAsync('email');
+    const password = await Expo.SecureStore.getItemAsync('password');
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({ isLoading: false });
+        this.navigateToHome();
+      })
+      .catch();
+  }
+
+  navigateToHome() {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({
+        routeName: 'Home'
+      })],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   handeSubmit() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        const resetAction = StackActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'Home' })],
-        });
-        this.props.navigation.dispatch(resetAction);
+        Expo.SecureStore.setItemAsync('email', this.state.email);
+        Expo.SecureStore.setItemAsync('password', this.state.password);
+        this.navigateToHome();
       })
-      .catch((error) => {
-        console.log(error);
-    })
+      .catch()
   }
 
   handlePress() {
@@ -30,6 +51,7 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Loading text='ログイン中' isLoading={this.state.isLoading} />
         <Text style={styles.title}>
           ログイン
         </Text>
