@@ -54,6 +54,8 @@ class MemoEditScreen extends React.Component {
           style={styles.memoEditInput}
           multiline
           value={this.state.body}
+          underlineColorAndroid='transparent'
+          textAlignVertical='top'
           onChangeText={(text) => { this.setState({ body: text }); }}
         />
 
